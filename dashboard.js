@@ -41,6 +41,21 @@ function displayWeather(data) {
     updateWeatherWidgetBackground(condition);
 
 }
+// Fetch data to create charts
+function fetchForecastData(city) {
+    fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&appid=${apiKey}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.cod === "200") {
+                createCharts(data);
+            } else {
+                alert('Unable to fetch forecast data');
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching forecast data:', error);
+        });
+}
 
 // Update the weather background based on conditions (images to be updated)
 function updateWeatherWidgetBackground(condition) {
