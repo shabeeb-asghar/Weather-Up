@@ -17,62 +17,65 @@
             <nav>
                 <a href="index.html" class="block py-2 px-4 rounded hover:bg-blue-700">Dashboard</a>
                 <a href="tables.html" class="block py-2 px-4 rounded mt-2 hover:bg-blue-700">Tables</a>
+
             </nav>
         </div>
+        <div class="flex flex-col lg:flex-row min-h-screen w-full">
 
-        <!-- Main Content -->
-        <div class="flex-1 p-6">
-            <!-- Search Bar Section -->
-            <div class="flex justify-between items-center mb-6">
-                <div class="flex gap-4 w-full">
-                    <input type="text" id="cityInput" placeholder="Search city..." class="w-1/2 p-2 border rounded">
-                    <button id="getWeatherBtn" class="ml-2 p-2 bg-blue-600 text-white rounded">Get Weather</button>
-                </div>
-                <div class="bg-gray-300 rounded-full h-10 w-10 flex items-center justify-center overflow-hidden">
-                    <img src="Me.png" alt="" class="w-full h-full object-cover rounded-full">
-                </div>
-            </div>
-
-            <!--Table and Chatbot -->
-            <div class="flex gap-4">
-                <!-- Table Section -->
-                <div class="w-1/2 bg-white p-6 rounded shadow">
-                    <h3 class="text-xl font-bold mb-4">Temperature Forecast</h3>
-                    <table class="min-w-full border">
-                        <!-- Table Content -->
-                        <thead>
-                            <tr>
-                                <th class="border px-4 py-2">Date</th>
-                                <th class="border px-4 py-2">Time</th>
-                                <th class="border px-4 py-2">Temperature (°C)</th>
-                            </tr>
-                        </thead>
-                        <tbody id="forecastTableBody">
-                        </tbody>
-                    </table>
-
-                    <!-- Pagination controls -->
-                    <div id="pagination" class="mt-4 flex justify-between items-center">
-                        <button id="prevBtn" class="p-2 bg-gray-300 text-gray-600 rounded disabled:opacity-50"
-                            disabled>Previous</button>
-                        <span id="pageNumber" class="text-gray-600">Page 1</span>
-                        <button id="nextBtn" class="p-2 bg-gray-300 text-gray-600 rounded">Next</button>
+            <!-- Main Content -->
+            <div class="flex-1 p-6">
+                <!-- Search Bar Section -->
+                <div class="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
+                    <div class="flex gap-4 w-full">
+                        <input type="text" id="cityInput" placeholder="Search city..."
+                            class="w-full md:w-1/2 p-2 border rounded">
+                        <button id="getWeatherBtn" class="p-2 bg-blue-600 text-white rounded">Get Weather</button>
+                    </div>
+                    <div class="bg-gray-300 rounded-full h-10 w-10 flex items-center justify-center overflow-hidden">
+                        <img src="Me.png" alt="" class="w-full h-full object-cover rounded-full">
                     </div>
                 </div>
 
-                <!-- Chatbot Section -->
-                <div class="w-1/2 bg-white p-6 rounded shadow">
-                    <h3 class="text-xl font-bold mb-4">Chatbot</h3>
-                    <div id="chatArea" class="bg-gray-100 p-4 h-64 overflow-auto border rounded">
-                    </div>
-                    <div class="mt-4">
-                        <input type="text" id="chatInput" placeholder="Type your message..."
-                            class="w-full p-2 border rounded">
-                        <div class="flex gap-4 w-full">
-                            <button id="sendBtn" class="mt-2 p-2 bg-blue-600 text-white rounded w-1/2">Send</button>
-                            <button id="clearBtn" class="mt-2 p-2 bg-red-600 text-white rounded w-1/2">Clear</button>
+                <!-- Table and Chatbot -->
+                <div class="flex flex-col lg:flex-row gap-4">
+                    <!-- Table Section -->
+                    <div class="w-full lg:w-1/2 bg-white p-6 rounded shadow">
+                        <h3 class="text-xl font-bold mb-4">Temperature Forecast</h3>
+                        <table class="min-w-full border">
+                            <!-- Table Content -->
+                            <thead>
+                                <tr>
+                                    <th class="border px-4 py-2">Date</th>
+                                    <th class="border px-4 py-2">Time</th>
+                                    <th class="border px-4 py-2">Temperature (°C)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="forecastTableBody">
+                            </tbody>
+                        </table>
+
+                        <!-- Pagination controls -->
+                        <div id="pagination" class="mt-4 flex justify-between items-center">
+                            <button id="prevBtn" class="p-2 bg-gray-300 text-gray-600 rounded disabled:opacity-50"
+                                disabled>Previous</button>
+                            <span id="pageNumber" class="text-gray-600">Page 1</span>
+                            <button id="nextBtn" class="p-2 bg-gray-300 text-gray-600 rounded">Next</button>
                         </div>
+                    </div>
 
+                    <!-- Chatbot Section -->
+                    <div class="w-full lg:w-1/2 bg-white p-6 rounded shadow">
+                        <h3 class="text-xl font-bold mb-4">Chatbot</h3>
+                        <div id="chatArea" class="bg-gray-100 p-4 h-64 overflow-auto border rounded">
+                        </div>
+                        <div class="mt-4">
+                            <input type="text" id="chatInput" placeholder="Type your message..."
+                                class="w-full p-2 border rounded">
+                            <div class="flex gap-4 w-full mt-2">
+                                <button id="sendBtn" class="p-2 bg-blue-600 text-white rounded w-1/2">Send</button>
+                                <button id="clearBtn" class="p-2 bg-red-600 text-white rounded w-1/2">Clear</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
