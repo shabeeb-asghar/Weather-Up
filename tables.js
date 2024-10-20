@@ -1,4 +1,3 @@
-// Fetch weather data (forecast) from the same API
 const apiKey = 'c7ea006285904b62c96b1297b7b6867d';
 const forecastTableBody = document.getElementById('forecastTableBody');
 const pageNumberEl = document.getElementById('pageNumber');
@@ -7,6 +6,7 @@ const rowsPerPage = 10;
 let forecastData = [];
 let currentCity = '';
 
+// Event listner for get Weather Buttone
 document.getElementById('getWeatherBtn').addEventListener('click', () => {
     const city = document.getElementById('cityInput').value;
     if (city) {
@@ -15,12 +15,13 @@ document.getElementById('getWeatherBtn').addEventListener('click', () => {
         fetchForecastData(city);
     }
 });
+
 // Fetch and display forecast data
 function fetchForecastData(city) {
     fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&appid=${apiKey}`)
         .then(response => response.json())
         .then(data => {
-            forecastData = data.list; // Get the forecast data list
+            forecastData = data.list;
             displayPage(currentPage);
         })
         .catch(error => {
@@ -31,14 +32,11 @@ function fetchForecastData(city) {
 
 // Display current page of forecast data
 function displayPage(page) {
-    // Calculate start and end indices for the current page
     const start = (page - 1) * rowsPerPage;
     const end = start + rowsPerPage;
 
-    // Clear the existing rows
     forecastTableBody.innerHTML = '';
 
-    // Add new rows for the current page
     forecastData.slice(start, end).forEach(entry => {
         const date = new Date(entry.dt_txt);
         const row = document.createElement('tr');
@@ -50,10 +48,8 @@ function displayPage(page) {
         forecastTableBody.appendChild(row);
     });
 
-    // Update page number display
     pageNumberEl.textContent = `Page ${page}`;
 
-    // Enable or disable Previous and Next buttons based on the current page
     document.getElementById('prevBtn').disabled = page === 1;
     document.getElementById('nextBtn').disabled = (page * rowsPerPage) >= forecastData.length;
 }
@@ -74,24 +70,23 @@ document.getElementById('prevBtn').addEventListener('click', () => {
         displayPage(currentPage);
     }
 });
+// Clear Chatbot Button
 document.getElementById('clearBtn').addEventListener('click', () => {
-    document.getElementById('chatArea').innerHTML = ''; // Clear chat
-    currentCity = ''; // Reset the current city
+    document.getElementById('chatArea').innerHTML = '';
+    currentCity = '';
 });
 
 
-const geminiApiKey = 'AIzaSyATFiDbciZ-yZFVJ-PYnlvFy5g0O3YQIIo'; // Google Gemini API key
+const geminiApiKey = 'AIzaSyATFiDbciZ-yZFVJ-PYnlvFy5g0O3YQIIo';
 
+// Event listner for send message to chatbot buttons
 document.getElementById('sendBtn').addEventListener('click', () => {
     const userMessage = document.getElementById('chatInput').value.trim().toLowerCase();
 
-    // Check if the user input includes 'weather' and process accordingly
     if (userMessage.includes('weather')) {
-        // Reset chatbot for new city-based query
         fetchGeminiForCity(userMessage)
             .then(cityName => {
                 if (cityName.toLowerCase() !== 'no') {
-                    // Update current city if a new city is detected
                     currentCity = cityName;
                     fetchWeatherData(currentCity)
                         .then(apiResponse => {
@@ -106,7 +101,6 @@ document.getElementById('sendBtn').addEventListener('click', () => {
             })
             .catch(() => displayChatbotResponse("There was an error", userMessage));
     } else if (currentCity) {
-        // If a city is already set, treat as follow-up query
         fetchWeatherData(currentCity)
             .then(apiResponse => {
                 analyzeApiResponseWithGemini(apiResponse, userMessage)
@@ -115,13 +109,11 @@ document.getElementById('sendBtn').addEventListener('click', () => {
             })
             .catch(() => displayChatbotResponse("There was an error", userMessage));
     } else {
-        // If there's no current city and no 'weather' keyword, treat as a general Gemini query
         fetchGeminiResponse(userMessage)
             .then(geminiResponse => displayChatbotResponse(geminiResponse, userMessage))
             .catch(() => displayChatbotResponse("There was an error", userMessage));
     }
 
-    // Clear the chat input after sending
     document.getElementById('chatInput').value = '';
 });
 
@@ -166,7 +158,6 @@ function fetchGeminiResponse(prompt) {
         .then(response => response.json())
         .then(data => {
             console.log(data);
-            // Check if the API response contains candidates and parts
             if (data && data.candidates && data.candidates.length > 0) {
                 const geminiContent = data.candidates[0].content;
                 if (geminiContent && geminiContent.parts && geminiContent.parts.length > 0) {
@@ -189,22 +180,19 @@ function fetchGeminiResponse(prompt) {
         });
 }
 
-
+// Function to display chatbot data
 function displayChatbotResponse(response, userMessage) {
     const chatArea = document.getElementById('chatArea');
 
-    // Display user message on the right
     const userMessageDiv = document.createElement('div');
     userMessageDiv.classList.add('bg-blue-500', 'text-white', 'p-2', 'rounded', 'my-2', 'ml-auto', 'w-fit');
     userMessageDiv.textContent = userMessage;
     chatArea.appendChild(userMessageDiv);
 
-    // Display bot response on the left
     const botResponseDiv = document.createElement('div');
     botResponseDiv.classList.add('bg-blue-100', 'p-2', 'rounded', 'my-2', 'mr-auto', 'w-fit');
     botResponseDiv.textContent = response;
     chatArea.appendChild(botResponseDiv);
 
-    // Scroll to the bottom of the chat area
     chatArea.scrollTop = chatArea.scrollHeight;
 }
